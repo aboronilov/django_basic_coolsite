@@ -9,4 +9,5 @@ urlpatterns = [
     path('login/', login, name='login'),
     path('about/', about, name='about'),
     path('post/<int:post_id>/', read_post, name='read_post'),
+    path('category/<int:cat_id>/', read_category, name='read_category'),
 ]

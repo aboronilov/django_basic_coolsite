@@ -11,9 +11,14 @@ menu = [{'title': 'О сайте', 'url_name': 'about'},
 
 def index(request):
     posts = Women.objects.all()
+    cats = Category.objects.all()
+
     context = {'title': 'Главная страница',
                'menu': menu,
-               'posts': posts}
+               'posts': posts,
+               'cats': cats,
+               'cat_selected': 0}
+
     return render(request, 'women/index.html', context=context)
 
 
@@ -37,6 +42,22 @@ def login(request):
 
 def read_post(request, post_id):
     return HttpResponse(f'<h1>Чтение статьи с номером {post_id}</h1>')
+
+
+def read_category(request, cat_id):
+    posts = Women.objects.filter(cat_id=cat_id)
+    cats = Category.objects.all()
+
+    if len(posts) == 0:
+        raise Http404()
+
+    context = {'title': 'Рубрики',
+               'menu': menu,
+               'posts': posts,
+               'cats': cats,
+               'cat_selected': cat_id}
+
+    return render(request, 'women/index.html', context=context)
 
 
 def pageNotFound(request, exception):
