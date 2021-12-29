@@ -1,5 +1,5 @@
 from django.http import HttpResponse, HttpResponseNotFound, Http404
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 from .models import Women, Category
 
@@ -31,8 +31,16 @@ def login(request):
     return HttpResponse('<h1>Авторзация</h1>')
 
 
-def read_post(request, post_id):
-    return HttpResponse(f'<h1>Чтение статьи с номером {post_id}</h1>')
+def read_post(request, post_slug):
+    post = get_object_or_404(Women, slug=post_slug)
+
+    context = {
+        'post': post,
+        'title': post.title,
+        'cat_selected': post_slug,
+    }
+
+    return render(request, 'women/post.html', context=context)
 
 
 def read_category(request, cat_id):
