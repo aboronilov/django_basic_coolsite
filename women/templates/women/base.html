@@ -16,7 +16,13 @@
 		<div class="header">
 			<ul id="mainmenu" class="mainmenu">
 			<li class="logo"><a href="{% url 'home' %}"><div class="logo"></div></a></li>
-				{% get_menu %}
+{% for item in menu %}
+	{% if not forloop.last %}
+			<li><a href="{% url item.url_name %}">{{item.title}}</a></li>
+	{% else %}
+			<li class="last"><a href="{% url item.url_name %}">{{item.title}}</a></li>
+	{% endif %}
+{% endfor %}
 			</ul>
 			<div class="clear"></div>
 		</div>
@@ -34,7 +40,15 @@
 			<li><a href="{% url 'home' %}">Все категории</a></li>
 		{% endif %}
 
-		{% show_categories 'name' cat_selected %}
+		{% for item in cats %}
+		{% if item.women__count > 0 %}
+			{% if item.pk == cat_selected %}
+				<li class="selected">{{ item.name }}</li>
+			{% else %}
+				<li><a href="{{ item.get_absolute_url }}">{{ item.name }}</a></li>
+			{% endif %}
+		{% endif %}
+		{% endfor %}
 
 		<li class="share">
 		<p>Наш канал</p>
