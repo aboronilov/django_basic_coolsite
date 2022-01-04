@@ -1,3 +1,4 @@
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.http import HttpResponse, HttpResponseNotFound, Http404
@@ -5,7 +6,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
 
-from .forms import AddPostForm
+from .forms import AddPostForm, RegisterUserForm
 from .models import Women, Category
 from .utils import DataMixin
 
@@ -89,6 +90,7 @@ class ReadPost(DataMixin, DetailView):
         c_def = self.get_user_context(title=context['post'])
         return context | c_def
 
+
 # def read_post(request, post_slug):
 #     post = get_object_or_404(Women, slug=post_slug)
 #
@@ -132,3 +134,14 @@ class ShowCategory(DataMixin, ListView):
 
 def pageNotFound(request, exception):
     return HttpResponseNotFound('<h1>Страница не найдена</h1>')
+
+
+class RegisterUser(DataMixin, CreateView):
+    form_class = RegisterUserForm
+    template_name = 'women/register.html'
+    success_url = reverse_lazy('login')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title='Регистрация')
+        return context | c_def
