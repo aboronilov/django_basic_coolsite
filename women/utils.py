@@ -1,3 +1,4 @@
+from django.core.cache import cache
 from django.db.models import Count
 
 from .models import Category
@@ -8,11 +9,14 @@ menu = [{'title': 'О сайте', 'url_name': 'about'},
 
 
 class DataMixin:
-    paginate_by = 20
+    paginate_by = 2
 
     def get_user_context(self, **kwargs):
         context = kwargs
-        cats = Category.objects.annotate(Count('women'))
+        cats = cache.get('cats')
+        if not cats:
+            cats = Category.objects.annotate(Count('women'))
+            cache.set('cats', cats, 60)
 
         user_menu = menu.copy()
         if not self.request.user.is_authenticated:

@@ -13,3 +13,4 @@ urlpatterns = [
     path('post/<slug:post_slug>/', ReadPost.as_view(), name='read_post'),
     path('category/<slug:cat_slug>/', ShowCategory.as_view(), name='read_category'),
 ]
+
