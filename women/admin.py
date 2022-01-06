@@ -1,15 +1,26 @@
 from django.contrib import admin
+from django.utils.safestring import mark_safe
 
 from .models import Women, Category
 
 
 class WomenAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'time_create', 'photo', 'is_published')
+    list_display = ('id', 'title', 'time_create', 'get_avatar', 'is_published')
     list_display_links = ('id', 'title')
     search_fields = ('title', 'content')
     list_editable = ('is_published', )
     list_filter = ('is_published', 'time_create')
     prepopulated_fields = {'slug': ('title',)}
+    fields = ('title', 'slug', 'cat', 'content', 'photo', 'is_published', 'get_avatar', 'time_create', 'time_update')
+    readonly_fields = ('get_avatar', 'time_create', 'time_update')
+    save_on_top = True
+
+    def get_avatar(self, object):
+        if object.photo:
+            return mark_safe(f"<img src={object.photo.url} width=50>")
+
+    get_avatar.short_description = 'Аватара'
+
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -20,5 +31,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Women, WomenAdmin)
-
 admin.site.register(Category, CategoryAdmin)
+
+admin.site.site_title = 'Информация об известных женщинах'
+admin.site.site_header = 'Информация об известных женщинах'
