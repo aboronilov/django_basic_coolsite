@@ -4,26 +4,53 @@
 
 Для запуска проекта с GitHub:
 1) Открыть командную строку или терминал
-2) В интересующей директории создать папку с проектом
-mkdir coolsite
+   
+
+2) В интересующей директории создать папку с проектом 
+   
+
+    mkdir coolsite
+   
+
 3) Перейти в папку
-cd coolsite
-4) Создать виртуальное окружение
-python -m venv venv
+   
+
+    cd coolsite
+
+   
+4) Создать виртуальное окружение 
+   
+
+    python -m venv venv
+   
+
 5) Активировать виртуальное окружение
 
 На Windows:
+
     .\venv\Scripts\activate
 
 На Linux:
+
     source venv/bin/activate
 
-6) Клонировать репозиторий
-git clone https://github.com/aboronilov/django_basic_coolsite
+6) Клонировать репозиторий 
+   
+
+    git clone https://github.com/aboronilov/django_basic_coolsite
+   
+
 7) Установить зависимости
-pip install -r requirements.txt
-6) Клонировать репозиторий
-git clone https://github.com/aboronilov/django_basic_furniture_store
+
+
+    pip install -r requirements.txt
+
+6) Клонировать репозиторий   
+   
+
+    git clone https://github.com/aboronilov/django_basic_coolsite
 7) Запустить сервер
-cd django_basic_furniture_store
-python manage.py runserver
+
+
+    cd coolsite
+    python manage.py runserver
