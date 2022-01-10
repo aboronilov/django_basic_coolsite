@@ -9,7 +9,7 @@ from django.views.generic import ListView, DetailView, CreateView, FormView
 
 from .forms import AddPostForm, RegisterUserForm, LoginUserForm, ContactForm
 from .models import Women, Category
-from .utils import DataMixin
+from .utils import DataMixin, menu
 
 
 class WomenHome(DataMixin, ListView):
@@ -27,12 +27,19 @@ class WomenHome(DataMixin, ListView):
 
 
 def about(request):
-    contact_list = Women.objects.all()
-    paginator = Paginator(contact_list, 3)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    context = {'title': 'О сайте', 'page_obj': page_obj}
+    context = {
+        'title': 'О сайте',
+        'menu': menu}
     return render(request, 'women/about.html', context=context)
+
+
+# class About(DataMixin, ListView):
+#     template_name = 'women/about.html'
+#
+#     def get_context_data(self, *, object_list=None, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         c_def = self.get_user_context(title='О сайте')
+#         return context | c_def
 
 
 class AddPost(LoginRequiredMixin, DataMixin, CreateView):
